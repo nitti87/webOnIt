@@ -1,0 +1,68 @@
+{
+  "Advokater": {
+    "websites": {
+      "Enabled": {
+        "price": "gold",
+        "mainImg": "../images/tmp.jpg",
+        "imgs": [
+          "../images/tmp.jpg",
+          "../images/tmp2.jpg",
+          "../images/tmp.jpg",
+          "../images/tmp.jpg",
+          "../images/tmp.jpg"
+        ]
+      },
+      "disabled": {
+        "price": "silver",
+        "mainImg": "../images/tmp.jpg",
+        "imgs": [
+          "../images/tmp.jpg",
+          "../images/tmp.jpg",
+          "../images/tmp.jpg"
+        ]
+      },
+      "poor": {
+        "price": "bronze",
+        "mainImg": "../images/tmp.jpg",
+        "imgs": [
+          "../images/tmp.jpg",
+          "../images/tmp.jpg",
+          "../images/tmp.jpg"
+        ]
+      }
+    }    
+  },
+  "Sport": {
+    "websites": {
+      "Enabled": {
+        "price": "gold",
+        "mainImg": "../images/tmp.jpg",
+        "imgs": [
+          "../images/tmp.jpg",
+          "../images/tmp2.jpg",
+          "../images/tmp.jpg",
+          "../images/tmp.jpg",
+          "../images/tmp.jpg"
+        ]
+      },
+      "disabled": {
+        "price": "silver",
+        "mainImg": "../images/tmp.jpg",
+        "imgs": [
+          "../images/tmp.jpg",
+          "../images/tmp.jpg",
+          "../images/tmp.jpg"
+        ]
+      },
+      "poor": {
+        "price": "bronze",
+        "mainImg": "../images/tmp.jpg",
+        "imgs": [
+          "../images/tmp.jpg",
+          "../images/tmp.jpg",
+          "../images/tmp.jpg"
+        ]
+      }
+    }    
+  }
+}
