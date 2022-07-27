@@ -1,5 +1,6 @@
 const urlMain = new URL(window.location.href);
-const kategoriSearch = urlMain.searchParams.get('kategori');
+const kategoriSearch = urlMain.searchParams.get('kategori') === null ? null : urlMain.searchParams.get('kategori');
+const hemsidaSearch = urlMain.searchParams.get('hemsida') === null ? null : urlMain.searchParams.get('hemsida');
 
 async function get_categories() {
   const data = await fetch('../db.json')
@@ -14,10 +15,22 @@ async function create_categories(categories) {
       for (let category in categories) {  
         const category_div = document.createElement('div')
         category_div.classList.add('category')
+        category_div.dataset.category = (category).toLowerCase()
   
         const ribbon = document.createElement('div')
         ribbon.classList.add('ribbon')
   
+        const searchWebsite_holder = document.createElement('div')
+        searchWebsite_holder.classList.add('searchWebsite_holder')
+
+        const searchWebsite_input = document.createElement('input')
+        searchWebsite_input.classList.add('searchWebsite_input')
+        searchWebsite_input.setAttribute('type', 'text')
+        searchWebsite_input.setAttribute('placeholder', 'Sök hemsida')
+        searchWebsite_input.dataset.kategori = category
+
+        searchWebsite_holder.appendChild(searchWebsite_input)
+
         const ribbon_text = document.createElement('div')
         ribbon_text.classList.add('text')
         ribbon_text.innerText = category
@@ -29,8 +42,9 @@ async function create_categories(categories) {
         gridHolder.classList.add('gridHolder')
   
         dataHolder.appendChild(category_div)
-        category_div.appendChild(ribbon)
         ribbon.appendChild(ribbon_text)
+        category_div.appendChild(ribbon)
+        category_div.appendChild(searchWebsite_holder)
         category_div.appendChild(hold_gridHolder)
         hold_gridHolder.appendChild(gridHolder)
         
@@ -50,6 +64,7 @@ async function get_websites(category, gridHolder) {
       for (const website in category.websites) {    
         const website_div = document.createElement('div')
         website_div.classList.add('gridItem')
+        website_div.classList.add('website')
     
         const website_div_img_holder = document.createElement('div')
         website_div_img_holder.classList.add('img_holder')
@@ -197,34 +212,84 @@ function popup(img_div, obj_imgs, image) {
   })
 }
 
+async function remove_searchParams() {
+  return new Promise(async(resolve, reject) => {
+    try {      
+      urlMain.searchParams.delete('kategori')
+      urlMain.searchParams.delete('hemsida')
+      window.history.pushState({}, '', urlMain.href)
+
+      resolve(true)
+    } catch (error) {
+      reject(error)
+    }
+  })
+}
+
 get_categories().then(async (categories) => {
   await create_categories(categories)
 
   document.querySelector('.loading').remove();
 
-  document.querySelector('.searchInput').addEventListener('keyup', (e) => {
+  document.querySelector('.searchInput').addEventListener('keyup', async(e) => {
     const search = e.target.value.toLowerCase()
+    await remove_searchParams();
+
+    for (const inputField of [...document.querySelectorAll('.searchWebsite_holder input')]) {
+      inputField.value = ''
+    }
+
     urlMain.searchParams.set('kategori', search)
     window.history.pushState({}, '', urlMain.href)
-    searchCategory(search)
+    searchQuery(search, hemsidaSearch)
   });
 
+  [...document.querySelectorAll('.searchWebsite_holder input')].forEach(input => {
+    input.addEventListener('keyup', async (e) => {
+      const search = e.target.value.toLowerCase()
+      const category = (input.dataset.kategori).toLowerCase()
+
+      await remove_searchParams()
+      urlMain.searchParams.set('kategori', category)
+      urlMain.searchParams.set('hemsida', search)
+      window.history.pushState({}, '', urlMain.href)
+
+      searchQuery(category, search)
+    })
+  })
+
+
   if(kategoriSearch.trim() !== '') {
-    searchCategory(kategoriSearch)
-    document.querySelector('.searchInput').value = kategoriSearch
+    searchQuery(kategoriSearch, hemsidaSearch)
+    document.querySelector('.searchInput').value = kategoriSearch;
+    kategoriSearch !== null ? document.querySelector(`[data-category="${kategoriSearch}"] .searchWebsite_input`).value = hemsidaSearch : null
   }
 });
 
-function searchCategory(search) {
+function searchQuery(searchCategory, searchWebsite = null) {
   const categories = document.querySelectorAll('.category')
   const no_result_found = document.querySelector('.no_result');
+  const no_result_website_found = document.querySelector('.no_result_website');
 
   document.querySelectorAll('.no_result').length > 0 ? no_result_found.remove() : null
+  document.querySelectorAll('.no_result_website').length > 0 ? no_result_website_found.remove() : null
 
   for (const category of categories) {
     const category_name = category.querySelector('.ribbon .text').innerText.toLowerCase()
-    if (category_name.includes(search)) {
+    if (category_name.includes(searchCategory)) {
       category.style.display = 'block'
+
+      if (searchWebsite !== null) {
+        const websites = category.querySelectorAll('.website')
+        for (const website of websites) {
+          const website_name = website.querySelector('.ribbon_text .text').innerText.toLowerCase()
+          if (website_name.includes(searchWebsite)) {
+            website.style.display = 'block'
+          } else {
+            website.style.display = 'none'
+          }
+        }
+      }
     } else {
       category.style.display = 'none'
     }
@@ -234,8 +299,16 @@ function searchCategory(search) {
     const no_result = document.createElement('div')
     no_result.classList.add('no_result')
     no_result.innerText = 'Hittade inga resultat'
-    document.querySelector('.dataHolder').appendChild(no_result)
+    document.querySelector('.dataHolder').appendChild(no_result);
   }    
+
+  // check if there is any website that is visible
+  if (document.querySelector('.category[style*="display: block;"]').querySelectorAll('.website[style*="display: block;"]').length === 0) {
+    const no_result = document.createElement('div')
+    no_result.classList.add('no_result_website')
+    no_result.innerText = 'Hittade inga resultat'
+    document.querySelector('.category[style*="display: block;"]').querySelector('.gridHolder').appendChild(no_result)
+  }
 }
 
 ///////////////////////////////////////////   don't change  ///////////////////////////////////////////////////

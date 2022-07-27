@@ -91,11 +91,13 @@ header {
   padding-left: 2em;
 }
 
-.searchHolder input:hover {
+.searchHolder input:hover,
+.category .searchWebsite_holder input:hover {
   box-shadow: 0 0 5px #14455b;
 }
 
-.searchHolder input:focus-visible {
+.searchHolder input:focus-visible,
+.category .searchWebsite_holder input:focus-visible {
   box-shadow: 0 0 5px #21749a;
 }
 
@@ -189,6 +191,26 @@ section.dataHolder .no_result {
   background: #21749a;
   background-size:.2em .2em;
   filter: drop-shadow(0 0 .2em rgba(0, 0, 0, 0.3));
+}
+
+.category .searchWebsite_holder {
+  position: absolute;
+  top: .8em;
+  right: .8em;
+}
+
+.category .searchWebsite_holder input {
+  border: none;
+  padding: .5em;
+  background-color: #fff;
+  color: #21749a;
+  outline: none;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
+  border-radius: .34em;
+  border: none;
+  width: 9.91em;
+  font-size: 1.08em;
+  padding-left: .41em;
 }
 
 .ribbon::before {

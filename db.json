@@ -34,7 +34,7 @@
   },
   "Sport": {
     "websites": {
-      "Enabled": {
+      "position": {
         "price": "gold",
         "mainImg": "../images/tmp.jpg",
         "imgs": [
@@ -45,7 +45,7 @@
           "../images/tmp.jpg"
         ]
       },
-      "disabled": {
+      "display": {
         "price": "silver",
         "mainImg": "../images/tmp.jpg",
         "imgs": [
@@ -54,7 +54,7 @@
           "../images/tmp.jpg"
         ]
       },
-      "poor": {
+      "block": {
         "price": "bronze",
         "mainImg": "../images/tmp.jpg",
         "imgs": [
