@@ -233,23 +233,27 @@ get_categories().then(async (categories) => {
 
   document.querySelector('.searchInput').addEventListener('keyup', async(e) => {
     const search = e.target.value.toLowerCase()
-    await remove_searchParams();
 
     for (const inputField of [...document.querySelectorAll('.searchWebsite_holder input')]) {
       inputField.value = ''
     }
+    
+    await remove_searchParams();
 
     urlMain.searchParams.set('kategori', search)
     window.history.pushState({}, '', urlMain.href)
-    searchQuery(search, hemsidaSearch)
+    searchQuery(search)
   });
 
   [...document.querySelectorAll('.searchWebsite_holder input')].forEach(input => {
     input.addEventListener('keyup', async (e) => {
       const search = e.target.value.toLowerCase()
-      const category = (input.dataset.kategori).toLowerCase()
-
+      
       await remove_searchParams()
+
+      const category = search.trim() !== '' ? (input.dataset.kategori).toLowerCase() 
+            : document.querySelector('.searchInput').value.toLowerCase()
+
       urlMain.searchParams.set('kategori', category)
       urlMain.searchParams.set('hemsida', search)
       window.history.pushState({}, '', urlMain.href)
@@ -259,10 +263,10 @@ get_categories().then(async (categories) => {
   })
 
 
-  if(kategoriSearch.trim() !== '') {
+  if(kategoriSearch !== null) {
     searchQuery(kategoriSearch, hemsidaSearch)
     document.querySelector('.searchInput').value = kategoriSearch;
-    kategoriSearch !== null ? document.querySelector(`[data-category="${kategoriSearch}"] .searchWebsite_input`).value = hemsidaSearch : null
+    kategoriSearch !== null && hemsidaSearch !== null ? document.querySelector(`[data-category="${kategoriSearch}"] .searchWebsite_input`).value = hemsidaSearch : null
   }
 });
 
@@ -276,14 +280,14 @@ function searchQuery(searchCategory, searchWebsite = null) {
 
   for (const category of categories) {
     const category_name = category.querySelector('.ribbon .text').innerText.toLowerCase()
-    if (category_name.includes(searchCategory)) {
+    if (category_name.startsWith(searchCategory)) {
       category.style.display = 'block'
 
       if (searchWebsite !== null) {
         const websites = category.querySelectorAll('.website')
         for (const website of websites) {
           const website_name = website.querySelector('.ribbon_text .text').innerText.toLowerCase()
-          if (website_name.includes(searchWebsite)) {
+          if (website_name.startsWith(searchWebsite)) {
             website.style.display = 'block'
           } else {
             website.style.display = 'none'
@@ -303,11 +307,13 @@ function searchQuery(searchCategory, searchWebsite = null) {
   }    
 
   // check if there is any website that is visible
-  if (document.querySelector('.category[style*="display: block;"]').querySelectorAll('.website[style*="display: block;"]').length === 0) {
+  console.log();
+  if (document.querySelectorAll('.category[style="display: block;"]').length === 1 
+      && document.querySelector('.category:not([style*="display: none;"])').querySelectorAll('.website:not([style*="display: none;"])').length === 0) {
     const no_result = document.createElement('div')
     no_result.classList.add('no_result_website')
     no_result.innerText = 'Hittade inga resultat'
-    document.querySelector('.category[style*="display: block;"]').querySelector('.gridHolder').appendChild(no_result)
+    document.querySelector('.category[style="display: block;"] .gridHolder').appendChild(no_result)
   }
 }
 
