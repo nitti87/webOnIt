@@ -66,11 +66,9 @@
 .popup .popup_img_list .popup_img_div .popup_img {
   width: 100%;
   user-select: none;
-  cursor: pointer;
-  height: auto;
   object-fit: scale-down;
   position: relative;
-  z-index: 1;
+  box-shadow: 0 0 11px -4px rgba(0, 0, 0, 0.465);
   transition: all .2s ease-in-out;
 }
 
@@ -104,5 +102,9 @@
     padding: .5em;
     border-radius: .5em;
     transition: all .2s ease-in-out;
+  }
+
+  .popup .popup_img_list .popup_img:not(.active) {
+    cursor: pointer;
   }
 }

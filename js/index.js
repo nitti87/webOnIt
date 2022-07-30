@@ -248,9 +248,16 @@ get_categories().then(async (categories) => {
   [...document.querySelectorAll('.searchWebsite_holder input')].forEach(input => {
     input.addEventListener('keyup', async (e) => {
       const search = e.target.value.toLowerCase()
-      
-      await remove_searchParams()
+      const kategori = (input.dataset.kategori).toLowerCase()
 
+      await remove_searchParams();
+
+      if (search.trim() === '' && document.querySelector('.searchInput').value.trim() === '') {
+        setTimeout(() => {
+          document.querySelector(`[data-category="${kategori}"]`).scrollIntoView();
+        }, 10);
+      }
+      
       const category = search.trim() !== '' ? (input.dataset.kategori).toLowerCase() 
             : document.querySelector('.searchInput').value.toLowerCase()
 
@@ -266,7 +273,7 @@ get_categories().then(async (categories) => {
   if(kategoriSearch !== null) {
     searchQuery(kategoriSearch, hemsidaSearch)
     document.querySelector('.searchInput').value = kategoriSearch;
-    kategoriSearch !== null && hemsidaSearch !== null ? document.querySelector(`[data-category="${kategoriSearch}"] .searchWebsite_input`).value = hemsidaSearch : null
+    (kategoriSearch !== null && hemsidaSearch !== null && kategoriSearch) ? document.querySelector(`[data-category="${kategoriSearch}"] .searchWebsite_input`).value = hemsidaSearch : null
   }
 });
 

@@ -30,7 +30,6 @@ main.container {
   height: 100vh;
   overflow: hidden;
   font: 1em 'Roboto', sans-serif;
-  inset: 0;
 }
 
 .loading {
@@ -61,7 +60,6 @@ main.container {
 header {
   padding: clamp(1em, 2em, 3em);
   display: flex;
-  position: relative;
   padding-right: 0;
   box-shadow: 0 1px 2px rgba(43, 41, 41, .5);
   background-color: #fff;
@@ -151,7 +149,6 @@ section.dataHolder {
   background: #eee;
   width: 100vw;
   height: calc(100vh - 5.6em);
-  position: absolute;
   margin-top: 2px;
   overflow-x: scroll;
 }
@@ -171,7 +168,6 @@ section.dataHolder .no_result {
 }
 
 .category {
-  display: block;
   margin: 2em auto;
   width: 90%;
   height: auto;
@@ -189,7 +185,6 @@ section.dataHolder .no_result {
   left: -.5em;
   top: .95em;
   background: #21749a;
-  background-size:.2em .2em;
   filter: drop-shadow(0 0 .2em rgba(0, 0, 0, 0.3));
 }
 
@@ -218,8 +213,6 @@ section.dataHolder .no_result {
   position: absolute;
   top: -.5em;
   left: 0;
-  width: 0;
-  height: 0;
   border-left: .5em solid transparent;
   border-bottom: .5em solid #14455b;
 }
@@ -227,19 +220,16 @@ section.dataHolder .no_result {
 .ribbon::after {
   content: '';
   position: absolute;
-  height: 0;
-  width: 0;
   border-top: 1.0em solid transparent;
   border-bottom: 1.24em solid transparent;
-  top: -0.0994788em;
+  top: -0.1594788em;
   border-left: .7em solid #21749a;
-  right: -.6em;
+  right: -.66em;
 }
 
 section .hold_gridHolder {
   width: 100%;
   height: 100%;
-  position: relative;
   padding: .1em;
   box-shadow: inset 0 3px 3px -3px rgba(50, 50, 50, 0.5);;
   margin-top: 2em;
@@ -257,7 +247,7 @@ section .hold_gridHolder .gridHolder {
   padding: 1.8em;
 }
 
-.gridHolder > .gridItem {
+.gridHolder .gridItem {
   min-width: 10.5em;
   min-height: 11.5em;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
@@ -265,13 +255,8 @@ section .hold_gridHolder .gridHolder {
   position: relative;
 }
 
-.gridItem .img_holder {
-  position: relative;
-}
-
 .gridItem .img_holder img {
   width: 12.5em;
-  height: 100%;
   cursor: pointer;
   box-shadow: 2px 2px .25em rgba(255, 255, 255, 0.2) inset;
   object-fit: cover;
@@ -287,10 +272,8 @@ section .hold_gridHolder .gridHolder {
   justify-content: space-between;
   background: #21749a;
   width: calc(100% - .5em);
-  background-size:.2em .2em;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.43);
   filter: drop-shadow(0 0 .2em rgba(0, 0, 0, 0.3));
-  z-index: 4;
   pointer-events: none;
 }
 
@@ -299,8 +282,6 @@ section .hold_gridHolder .gridHolder {
   position: absolute;
   top: -.4em;
   left: 0;
-  width: 0;
-  height: 0;
   border-left: .4em solid transparent;
   border-bottom: .4em solid #14455b;
 }
@@ -311,7 +292,6 @@ section .hold_gridHolder .gridHolder {
   border-left: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
   box-shadow: 0 0 .3em rgba(0, 0, 0, 0.42), 0 0 .5em rgba(242, 230, 230, 0.42) inset;
-  z-index: 1;
 }
 
 .bronze {
@@ -327,8 +307,6 @@ section .hold_gridHolder .gridHolder {
 }
 
 .gridItem .imageHolder {
-  min-width: 100%;
-  min-height: 1.5em;
   display: grid;
   margin-top: -.3em;
   grid-template-columns: repeat(auto-fit, minmax(2.2em, 1fr));
@@ -339,20 +317,15 @@ section .hold_gridHolder .gridHolder {
   border-radius: inherit;
   border-top-right-radius: 0;
   background: #14455b8d;
-  z-index: -1;
 }
 
 .gridItem .imageHolder .img_div {
-  width: 100%;
-  height: 100%;
-  position: relative;
   display: flex;
   justify-content: center;
 }
 
 .imageHolder img {
   width: 3.3em;
-  height: 100%;
   object-fit: scale-down;
   cursor: pointer;
 }
